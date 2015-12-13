@@ -16,7 +16,12 @@ ifeq (, $(shell which R))
 R_EXISTS=NO
 endif
 
-all: emacs git R
+RD_EXISTS=YES
+ifeq (, $(shell which RD))
+RD_EXISTS=NO
+endif
+
+all: emacs git R R-devel
 
 emacs:
 	@if [ "$(EMACS_EXISTS)" = "NO" ]; then \
@@ -61,4 +66,16 @@ R:
 	    sudo apt-get install ess; \
 	fi
 
-.PHONY: all emacs git R
+R-devel:
+	@if [ "$(RD_EXISTS)" = "NO" ]; then \
+	    cd $(DOWNLOADS) && wget https://stat.ethz.ch/R/daily/R-devel.tar.gz; \
+	    cd $(DOWNLOADS) && tar zxvf R-devel.tar.gz; \
+	    cd $(DOWNLOADS)/R-devel && ./configure --prefix=/usr/local/R/R-devel; \
+	    cd $(DOWNLOADS)/R-devel && make; \
+	    cd $(DOWNLOADS)/R-devel && sudo make install; \
+	    sudo ln -s /usr/local/R/R-devel/bin/R /usr/bin/RD; \
+	    rm -rf $(DOWNLOADS)/R-devel; \
+	    rm $(DOWNLOADS)/R-devel.tar.gz; \
+	fi
+
+.PHONY: all emacs git R R-devel
