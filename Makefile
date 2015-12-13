@@ -1,6 +1,5 @@
 DOWNLOADS=~/Downloads
 EMACS_VER=24.5
-GIT_VER=2.6.2
 
 EMACS_EXISTS=YES
 ifeq (, $(shell which emacs))
@@ -45,16 +44,7 @@ emacs:
 
 git:
 	@if [ "$(GIT_EXISTS)" = "NO" ]; then \
-	    sudo apt-get install libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev; \
-	    sudo apt-get install asciidoc xmlto docbook2x; \
-	    cd $(DOWNLOADS) && wget https://www.kernel.org/pub/software/scm/git/git-$(GIT_VER).tar.gz; \
-	    cd $(DOWNLOADS) && tar zxvf git-$(GIT_VER).tar.gz; \
-	    cd $(DOWNLOADS)/git-$(GIT_VER) && make configure; \
-	    cd $(DOWNLOADS)/git-$(GIT_VER) && ./configure --prefix=/usr; \
-	    cd $(DOWNLOADS)/git-$(GIT_VER) && make all doc info; \
-	    cd $(DOWNLOADS)/git-$(GIT_VER) && sudo make install install-doc install-html install-info; \
-	    rm -rf $(DOWNLOADS)/git-$(GIT_VER); \
-	    rm $(DOWNLOADS)/git-$(GIT_VER).tar.gz; \
+	    sudo apt-get install git; \
 	    git config --global user.name "Stefan Widgren"; \
 	    git config --global user.email stefan.widgren@gmail.com; \
 	fi
