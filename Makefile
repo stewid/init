@@ -60,10 +60,9 @@ R:
             sudo add-apt-repository "deb http://se.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe"; \
 	    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9; \
 	    sudo apt-get update; \
-            sudo apt-get build-dep r-base; \
-	    sudo apt-get install r-base; \
-	    sudo apt-get install r-base-dev; \
-	    sudo apt-get install ess; \
+	    sudo apt-get -y build-dep r-base; \
+	    sudo apt-get -y install r-base; \
+	    sudo apt-get -y install r-base-dev; \
 	fi
 
 R-devel:
