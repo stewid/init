@@ -41,7 +41,7 @@ emacs:
 	    sudo sh -c 'echo "MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Exec=/usr/local/bin/emacs %F" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "TryExec=emacs" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Icon=/usr/share/icons/hicolor/scalable/apps/emacs24.svg" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Icon=emacs" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Type=Application" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Terminal=false" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Categories=Utility;Development;TextEditor;" >> /usr/share/applications/emacs.desktop'; \
