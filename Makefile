@@ -56,13 +56,12 @@ git:
 
 R:
 	@if [ "$(R_EXISTS)" = "NO" ]; then \
-	    sudo add-apt-repository "deb https://cran.rstudio.com/bin/linux/ubuntu wily/"; \
-            sudo add-apt-repository "deb http://se.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe"; \
+	    sudo add-apt-repository "deb https://cran.rstudio.com/bin/linux/ubuntu trusty/"; \
+	    sudo add-apt-repository "deb http://se.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe"; \
 	    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9; \
 	    sudo apt-get update; \
 	    sudo apt-get -y build-dep r-base; \
-	    sudo apt-get -y install r-base; \
-	    sudo apt-get -y install r-base-dev; \
+	    sudo apt-get -y install r-base rbase-dev; \
 	fi
 
 R-devel:
