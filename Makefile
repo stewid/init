@@ -35,16 +35,17 @@ emacs:
 	    rm $(DOWNLOADS)/emacs-$(EMACS_VER).tar.gz; \
 	    sudo sh -c 'echo "[Desktop Entry]" > /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Version=$(EMACS_VER)" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Name=Emacs" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Exec=env UBUNTU_MENUPROXY=0 /usr/local/bin/emacs" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Terminal=false" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Icon=emacs" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Name=GNU Emacs" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "GenericName=Text Editor" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Comment=View and edit files" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Exec=/usr/local/bin/emacs %F" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "TryExec=emacs" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Icon=/usr/share/icons/hicolor/scalable/apps/emacs24.svg" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Type=Application" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Categories=IDE" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "X-Ayatana-Desktop-Shortcuts=NewWindow" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "[NewWindow Shortcut Group]" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "Name=New Window" >> /usr/share/applications/emacs.desktop'; \
-	    sudo sh -c 'echo "TargetEnvironment=Unity" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Terminal=false" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "Categories=Utility;Development;TextEditor;" >> /usr/share/applications/emacs.desktop'; \
+	    sudo sh -c 'echo "StartupWMClass=Emacs" >> /usr/share/applications/emacs.desktop'; \
 	fi
 
 git:
