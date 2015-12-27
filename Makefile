@@ -25,7 +25,7 @@ all: emacs git R R-devel
 
 emacs:
 	@if [ "$(EMACS_EXISTS)" = "NO" ]; then \
-	    sudo apt-get build-dep emacs24; \
+	    sudo apt-get -y build-dep emacs24; \
 	    cd $(DOWNLOADS) && wget https://ftp.gnu.org/pub/gnu/emacs/emacs-$(EMACS_VER).tar.gz; \
 	    cd $(DOWNLOADS) && tar zxvf emacs-$(EMACS_VER).tar.gz; \
 	    cd $(DOWNLOADS)/emacs-$(EMACS_VER) && ./configure; \
