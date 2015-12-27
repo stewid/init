@@ -67,6 +67,7 @@ R:
 
 R-devel:
 	@if [ "$(RD_EXISTS)" = "NO" ]; then \
+	    sudo apt-get -y install libcurl4-openssl-dev; \
 	    cd $(DOWNLOADS) && wget https://stat.ethz.ch/R/daily/R-devel.tar.gz; \
 	    cd $(DOWNLOADS) && tar zxvf R-devel.tar.gz; \
 	    cd $(DOWNLOADS)/R-devel && ./configure --prefix=/usr/local/R/R-devel; \
