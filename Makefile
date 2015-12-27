@@ -1,5 +1,6 @@
 DOWNLOADS=~/Downloads
 EMACS_VER=24.5
+GIT_VER=2.6.4
 
 EMACS_EXISTS=YES
 ifeq (, $(shell which emacs))
@@ -21,7 +22,7 @@ ifeq (, $(shell which RD))
 RD_EXISTS=NO
 endif
 
-all: emacs git R R-devel
+all: git emacs R R-devel
 
 emacs:
 	@if [ "$(EMACS_EXISTS)" = "NO" ]; then \
@@ -46,11 +47,20 @@ emacs:
 	    sudo sh -c 'echo "Terminal=false" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "Categories=Utility;Development;TextEditor;" >> /usr/share/applications/emacs.desktop'; \
 	    sudo sh -c 'echo "StartupWMClass=Emacs" >> /usr/share/applications/emacs.desktop'; \
+	    git clone https://github.com/stewid/.emacs.d.git; \
 	fi
 
 git:
 	@if [ "$(GIT_EXISTS)" = "NO" ]; then \
-	    sudo apt-get install git; \
+	    sudo apt-get -y install libcurl4-openssl-dev libexpat1-dev gettext libz-dev libssl-dev asciidoc xmlto docbook2x; \
+	    cd $(DOWNLOADS) && wget https://www.kernel.org/pub/software/scm/git/git-$(GIT_VER).tar.gz; \
+	    cd $(DOWNLOADS) && tar zxvf git-$(GIT_VER).tar.gz; \
+	    cd $(DOWNLOADS)/git-$(GIT_VER) && make configure; \
+	    cd $(DOWNLOADS)/git-$(GIT_VER) && ./configure --prefix=/usr; \
+	    cd $(DOWNLOADS)/git-$(GIT_VER) && make all doc info; \
+	    cd $(DOWNLOADS)/git-$(GIT_VER) && sudo make install install-doc install-html install-info; \
+	    rm -rf $(DOWNLOADS)/git-$(GIT_VER); \
+	    rm $(DOWNLOADS)/git-$(GIT_VER).tar.gz; \
 	    git config --global user.name "Stefan Widgren"; \
 	    git config --global user.email stefan.widgren@gmail.com; \
 	fi
