@@ -1,0 +1,127 @@
+---
+- name: Configure my Fedora workstation
+  hosts: workstation
+  become: yes
+  tasks:
+
+  - name: Ensure the latest version of various software packages are installed
+    dnf:
+      name:
+        - devscripts-checkbashisms
+        - emacs
+        - gdal-devel
+        - geos-devel
+        - gsl-devel
+        - proj-devel
+        - R
+        - restic
+        - sqlite-devel
+        - texlive-adjustbox
+        - texlive-algorithmicx
+        - texlive-authoraftertitle
+        - texlive-datetime
+        - texlive-draftwatermark
+        - texlive-doublestroke
+        - texlive-floatrow
+        - texlive-framed
+        - texlive-lastpage
+        - texlive-lato
+        - texlive-lettrine
+        - texlive-mdframed
+        - texlive-multirow
+        - texlive-numprint
+        - texlive-preprint
+        - texlive-sidecap
+        - texlive-sttools
+        - texlive-tcolorbox
+        - texlive-titling
+        - texlive-threeparttable
+        - texlive-totcount
+        - texlive-was
+        - texlive-xpatch
+        - udunits2-devel
+      state: latest
+
+  # This is needed to change the Gnome settings below.
+  - name: Ensure the latest version of 'python3-psutil' is installed
+    dnf:
+      name: python3-psutil
+      state: latest
+
+  - name: Turn off the Gnome beep sound
+    become: false
+    dconf:
+      key: "/org/gnome/desktop/sound/event-sounds"
+      value: "false"
+      state: present
+
+  - name: Create a directory for R packages if it does not exist
+    become: false
+    file:
+      path: $HOME/R/library
+      state: directory
+      mode: '0755'
+
+  - name: Create a directory for a '~/.R/Makevars' file if it does not exist
+    become: false
+    file:
+      path: $HOME/.R
+      state: directory
+      mode: '0755'
+
+  - name: >
+      Create a '~/.R/Makevars' file with some out-commented
+      examples of how to modify package compilation.
+    become: false
+    copy:
+      dest: $HOME/.R/Makevars
+      force: no
+      content: |
+        # CFLAGS = -Wall -pedantic
+        # CFLAGS = -Wall -Wextra -pedantic -Wno-cast-function-type
+        # CFLAGS = -Wall -Wextra -pedantic
+        # CFLAGS = -Wall -flto -pedantic
+        # CFLAGS = -Wall -Wextra -pedantic -ggdb -O0
+        # CFLAGS = -ggdb -O0
+        # CFLAGS=-g -O3 -Wall -pedantic -std=gnu99 -mtune=native -pipe
+        # CFLAGS=
+        # CC=clang
+        # CC=ccache gcc
+        # VER=
+        # CCACHE=ccache
+        # CC=$(CCACHE) gcc$(VER)
+        # CXX=$(CCACHE) g++$(VER)
+        # CXX11=$(CCACHE) g++$(VER)
+        # CXX14=$(CCACHE) g++$(VER)
+        # FC=$(CCACHE) gfortran$(VER)
+        # F77=$(CCACHE) gfortran$(VER)
+
+  - name: Ensure that the 'emacs' configuration exists
+    become: false
+    git:
+      repo: 'https://github.com/stewid/.emacs.d.git'
+      dest: $HOME/.emacs.d
+      update: no
+
+  - name: Install some R packages
+    become: false
+    command: >-
+        Rscript --no-restore --no-save -e "
+          if (!('{{ item }}' %in% installed.packages()[,'Package'])) {
+              tryCatch(install.packages('{{ item }}'),
+                       warning = function(w) stop(w))
+              cat('Install package')
+          }"
+    register: r_install
+    changed_when: "'Install package' in r_install.stdout"
+    with_items:
+      - bookdown
+      - getPass
+      - raster
+      - rgl
+      - roxygen2
+      - pdftools
+      - SimInf
+      - sf
+      - sp
+      - xml2
