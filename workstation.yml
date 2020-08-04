@@ -55,6 +55,13 @@
       value: "false"
       state: present
 
+  - name: Set wallpaper
+    become: false
+    dconf:
+      key: "/org/gnome/desktop/background/picture-uri"
+      value: "'{{ lookup('env', 'PWD') }}/wallpaper.jpg'"
+      state: present
+
   - name: Create a directory for R packages if it does not exist
     become: false
     file:
