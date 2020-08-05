@@ -118,6 +118,14 @@
         # FC=$(CCACHE) gfortran$(VER)
         # F77=$(CCACHE) gfortran$(VER)
 
+  - name: Create a '~/.Rprofile' file
+    become: false
+    copy:
+      dest: $HOME/.Rprofile
+      force: no
+      content: |
+        options(repos = c(CRAN="https://cran.r-project.org"))
+
   - name: Create a '~/.gdbinit' file
     become: false
     copy:
