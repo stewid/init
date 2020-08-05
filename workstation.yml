@@ -62,6 +62,20 @@
       value: "'{{ lookup('env', 'PWD') }}/wallpaper.jpg'"
       state: present
 
+  - name: Ensure the 'alias backup' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^alias backup='
+      line: alias backup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic/backup | sed -n 1p) backup \$(pass restic/backup | sed -n 2p)"
+
+  - name: Ensure the 'alias backup_setup' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^alias backup_setup='
+      line: alias backup_setup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic/backup_setup | sed -n 1p) backup \$(pass restic/backup_setup | sed -n 2p)"
+
   - name: Create a directory for R packages if it does not exist
     become: false
     file:
