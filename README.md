@@ -1,2 +1,1 @@
-# init
-Makefile to initialize my system
+Ansible playbook to configure my Fedora workstation
