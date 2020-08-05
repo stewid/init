@@ -10,6 +10,7 @@
         - devscripts-checkbashisms
         - emacs
         - gdal-devel
+        - gdb
         - geos-devel
         - gsl-devel
         - proj-devel
@@ -116,6 +117,15 @@
         # CXX14=$(CCACHE) g++$(VER)
         # FC=$(CCACHE) gfortran$(VER)
         # F77=$(CCACHE) gfortran$(VER)
+
+  - name: Create a '~/.gdbinit' file
+    become: false
+    copy:
+      dest: $HOME/.gdbinit
+      force: no
+      content: |
+        set style enabled off
+        set history save on
 
   - name: Ensure that the 'emacs' configuration exists
     become: false
