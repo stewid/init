@@ -110,6 +110,13 @@
       dest: $HOME/.emacs.d
       update: no
 
+  - name: Ensure the EDITOR environment variable is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^export EDITOR='
+      line: export EDITOR=emacs
+
   - name: Install some R packages
     become: false
     command: >-
