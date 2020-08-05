@@ -118,6 +118,14 @@
         # FC=$(CCACHE) gfortran$(VER)
         # F77=$(CCACHE) gfortran$(VER)
 
+  - name: Create a '~/.Renviron' file
+    become: false
+    copy:
+      dest: $HOME/.Renviron
+      force: no
+      content: |
+        R_LIBS_USER=~/R/library
+
   - name: Create a '~/.Rprofile' file
     become: false
     copy:
