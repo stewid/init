@@ -43,6 +43,17 @@
         - udunits2-devel
       state: latest
 
+  - name: Restore backup
+    become: false
+    command: >-
+      bash -c "
+        if test ! -d ${HOME}/$(pass restic/backup | sed -n 3p); then
+          restic --password-file <(pass restic | sed -n 1p) -r $(pass restic/backup | sed -n 1p) restore latest --target $HOME
+          echo 'Restore backup'
+        fi"
+    register: restore_backup
+    changed_when: "'Restore backup' in restore_backup.stdout"
+
   # This is needed to change the Gnome settings below.
   - name: Ensure the latest version of 'python3-psutil' is installed
     dnf:
