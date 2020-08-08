@@ -51,6 +51,12 @@
       state: started
       enabled: yes
 
+  - name: Start and enable pcscd.socket
+    systemd:
+      name: pcscd.socket
+      state: started
+      enabled: yes
+
   - name: Restore backup
     become: false
     command: >-
