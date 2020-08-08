@@ -13,6 +13,8 @@
         - gdb
         - geos-devel
         - gsl-devel
+        - pcsc-lite
+        - pcsc-tools
         - proj-devel
         - R
         - restic
