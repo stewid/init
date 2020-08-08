@@ -45,6 +45,12 @@
         - udunits2-devel
       state: latest
 
+  - name: Start and enable pcscd.service
+    systemd:
+      name: pcscd.service
+      state: started
+      enabled: yes
+
   - name: Restore backup
     become: false
     command: >-
