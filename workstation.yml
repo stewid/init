@@ -4,6 +4,37 @@
   become: yes
   tasks:
 
+  - name: Ensure required software packages to run this playbook are installed
+    dnf:
+      name:
+        - pcsc-lite
+        - pcsc-tools
+        - python3-psutil
+        - restic
+
+  - name: Start and enable pcscd.service
+    systemd:
+      name: pcscd.service
+      state: started
+      enabled: yes
+
+  - name: Start and enable pcscd.socket
+    systemd:
+      name: pcscd.socket
+      state: started
+      enabled: yes
+
+  - name: Restore backup
+    become: false
+    command: >-
+      bash -c "
+        if test ! -d ${HOME}/$(pass restic/backup | sed -n 3p); then
+          restic --password-file <(pass restic | sed -n 1p) -r $(pass restic/backup | sed -n 1p) restore latest --target $HOME
+          echo 'Restore backup'
+        fi"
+    register: restore_backup
+    changed_when: "'Restore backup' in restore_backup.stdout"
+
   - name: Ensure the latest version of various software packages are installed
     dnf:
       name:
@@ -13,11 +44,8 @@
         - gdb
         - geos-devel
         - gsl-devel
-        - pcsc-lite
-        - pcsc-tools
         - proj-devel
         - R
-        - restic
         - sqlite-devel
         - texlive-adjustbox
         - texlive-algorithmicx
@@ -43,35 +71,6 @@
         - texlive-was
         - texlive-xpatch
         - udunits2-devel
-      state: latest
-
-  - name: Start and enable pcscd.service
-    systemd:
-      name: pcscd.service
-      state: started
-      enabled: yes
-
-  - name: Start and enable pcscd.socket
-    systemd:
-      name: pcscd.socket
-      state: started
-      enabled: yes
-
-  - name: Restore backup
-    become: false
-    command: >-
-      bash -c "
-        if test ! -d ${HOME}/$(pass restic/backup | sed -n 3p); then
-          restic --password-file <(pass restic | sed -n 1p) -r $(pass restic/backup | sed -n 1p) restore latest --target $HOME
-          echo 'Restore backup'
-        fi"
-    register: restore_backup
-    changed_when: "'Restore backup' in restore_backup.stdout"
-
-  # This is needed to change the Gnome settings below.
-  - name: Ensure the latest version of 'python3-psutil' is installed
-    dnf:
-      name: python3-psutil
       state: latest
 
   - name: Turn off the Gnome beep sound
