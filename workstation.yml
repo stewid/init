@@ -44,6 +44,8 @@
         - gdb
         - geos-devel
         - gsl-devel
+        - pandoc
+        - pandoc-citeproc
         - proj-devel
         - R
         - sqlite-devel
@@ -195,8 +197,10 @@
     with_items:
       - bookdown
       - getPass
+      - knitr
       - raster
       - rgl
+      - rmarkdown
       - roxygen2
       - pdftools
       - SimInf
