@@ -38,6 +38,7 @@
   - name: Ensure the latest version of various software packages are installed
     dnf:
       name:
+        - cppcheck
         - devscripts-checkbashisms
         - emacs
         - gdal-devel
