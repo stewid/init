@@ -87,8 +87,8 @@
     become: false
     command: >-
       bash -c "
-        if test ! -d ${HOME}/$(pass restic/backup | sed -n 3p); then
-          restic --password-file <(pass restic | sed -n 1p) -r $(pass restic/backup | sed -n 1p) restore latest --target $HOME
+        if test ! -d ${HOME}/$(pass restic | sed -n 4p); then
+          restic --password-file <(pass restic | sed -n 1p) -r $(pass restic | sed -n 2p) restore latest --target $HOME
           echo 'Restore backup'
         fi"
     register: restore_backup
@@ -154,14 +154,7 @@
     lineinfile:
       path: $HOME/.bashrc
       regexp: '^alias backup='
-      line: alias backup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic/backup | sed -n 1p) backup \$(pass restic/backup | sed -n 2p)"
-
-  - name: Ensure the 'alias backup_setup' is set
-    become: false
-    lineinfile:
-      path: $HOME/.bashrc
-      regexp: '^alias backup_setup='
-      line: alias backup_setup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic/backup_setup | sed -n 1p) backup \$(pass restic/backup_setup | sed -n 2p)"
+      line: alias backup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) backup \$(pass restic | sed -n 3p)"
 
   - name: Create a directory for R packages if it does not exist
     become: false
