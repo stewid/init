@@ -267,3 +267,10 @@
       - sf
       - sp
       - xml2
+
+  - name: Add file enumeration of untracked files in git
+    become: false
+    git_config:
+      name: status.showUntrackedFiles
+      scope: global
+      value: all
