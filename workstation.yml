@@ -61,6 +61,28 @@
     register: setup_gpg
     changed_when: "'Setup gpg' in setup_gpg.stdout"
 
+  - name: Create a configuration file for gpg-agent
+    become: false
+    copy:
+      dest: $HOME/.gnupg/gpg-agent.conf
+      force: no
+      content: |
+        enable-ssh-support
+
+  - name: Ensure the 'SSH_AUTH_SOCK' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^export SSH_AUTH_SOCK='
+      line: export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
+  - name: Ensure the 'gpg-agent' is launched
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^gpgconf --launch gpg-agent'
+      line: gpgconf --launch gpg-agent
+
   - name: Restore backup
     become: false
     command: >-
