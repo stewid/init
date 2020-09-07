@@ -7,6 +7,7 @@
   - name: Ensure required software packages to run this playbook are installed
     dnf:
       name:
+        - pass
         - pcsc-lite
         - pcsc-tools
         - python3-psutil
