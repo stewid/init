@@ -1,0 +1,83 @@
+---
+- name: Configure gpg
+  hosts: workstation
+  become: yes
+  tasks:
+
+  - name: Ensure required software packages to run this playbook are installed
+    dnf:
+      name:
+        - pcsc-lite
+        - pcsc-tools
+        - python3-psutil
+
+  - name: Start and enable pcscd.service
+    systemd:
+      name: pcscd.service
+      state: started
+      enabled: yes
+
+  - name: Start and enable pcscd.socket
+    systemd:
+      name: pcscd.socket
+      state: started
+      enabled: yes
+
+  - name: Setup gpg key management
+    become: false
+    command: >-
+      bash -c "
+        if test ! -d ${HOME}/.gnupg; then
+          mkdir $HOME/.gnupg
+          echo 'personal-cipher-preferences AES256 AES192 AES' > $HOME/.gnupg/gpg.conf
+          echo 'personal-digest-preferences SHA512 SHA384 SHA256' >> $HOME/.gnupg/gpg.conf
+          echo 'personal-compress-preferences ZLIB BZIP2 ZIP Uncompressed' >> $HOME/.gnupg/gpg.conf
+          echo 'default-preference-list SHA512 SHA384 SHA256 AES256 AES192 AES ZLIB BZIP2 ZIP Uncompressed' >> $HOME/.gnupg/gpg.conf
+          echo 'cert-digest-algo SHA512' >> $HOME/.gnupg/gpg.conf
+          echo 's2k-digest-algo SHA512' >> $HOME/.gnupg/gpg.conf
+          echo 's2k-cipher-algo AES256' >> $HOME/.gnupg/gpg.conf
+          echo 'charset utf-8' >> $HOME/.gnupg/gpg.conf
+          echo 'fixed-list-mode' >> $HOME/.gnupg/gpg.conf
+          echo 'no-comments' >> $HOME/.gnupg/gpg.conf
+          echo 'no-emit-version' >> $HOME/.gnupg/gpg.conf
+          echo 'no-greeting' >> $HOME/.gnupg/gpg.conf
+          echo 'keyid-format 0xlong' >> $HOME/.gnupg/gpg.conf
+          echo 'list-options show-uid-validity' >> $HOME/.gnupg/gpg.conf
+          echo 'verify-options show-uid-validity' >> $HOME/.gnupg/gpg.conf
+          echo 'with-fingerprint' >> $HOME/.gnupg/gpg.conf
+          echo 'require-cross-certification' >> $HOME/.gnupg/gpg.conf
+          echo 'no-symkey-cache' >> $HOME/.gnupg/gpg.conf
+          echo 'use-agent' >> $HOME/.gnupg/gpg.conf
+          echo 'throw-keyids' >> $HOME/.gnupg/gpg.conf
+          echo 'keyserver hkps://keys.openpgp.org' >> $HOME/.gnupg/gpg.conf
+          chmod 700 $HOME/.gnupg
+          chmod 600 $HOME/.gnupg/gpg.conf
+          gpg --auto-key-locate keyserver --locate-keys stefan.widgren@gmail.com
+          KEYID=$(gpg --list-keys --with-colons stefan.widgren@gmail.com | awk -F: '/fpr:/ {print $10}' | head -n 1)
+          echo -e '5\ny\n' | gpg --command-fd 0 --edit-key $KEYID trust
+          echo 'Setup gpg'
+        fi"
+    register: setup_gpg
+    changed_when: "'Setup gpg' in setup_gpg.stdout"
+
+  - name: Create a configuration file for gpg-agent
+    become: false
+    copy:
+      dest: $HOME/.gnupg/gpg-agent.conf
+      force: no
+      content: |
+        enable-ssh-support
+
+  - name: Ensure the 'SSH_AUTH_SOCK' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^export SSH_AUTH_SOCK='
+      line: export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
+  - name: Ensure the 'gpg-agent' is launched
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^gpgconf --launch gpg-agent'
+      line: gpgconf --launch gpg-agent
