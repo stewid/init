@@ -91,13 +91,14 @@
           echo 'Host *' > $HOME/.ssh/config
           echo '    IdentitiesOnly yes' >> $HOME/.ssh/config
           echo '    IdentityFile ~/.ssh/id_rsa_yubikey.pub' >> $HOME/.ssh/config
-          chmod 600 $HOME/.ssh
+          gpg --export-ssh-key stefan.widgren@gmail.com > $HOME/.ssh/id_rsa_yubikey.pub
+          chmod 700 $HOME/.ssh
           chmod 600 $HOME/.ssh/config
+          chmod 600 $HOME/.ssh/id_rsa_yubikey.pub
           sudo killall gpg-agent
           sudo killall ssh-agent
           eval $(gpg-agent --daemon --enable-ssh-support)
-          gpg --export-ssh-key stefan.widgren@gmail.com > $HOME/.ssh/id_rsa_yubikey.pub
-          gpg-connect-agent "scd serialno" "learn --force" /bye
+          gpg-connect-agent 'scd serialno' 'learn --force' /bye
           echo 'Setup ssh'
         fi"
     register: setup_ssh
