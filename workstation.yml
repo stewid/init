@@ -10,6 +10,10 @@
         - pass
         - restic
 
+  - name: Specify hostname
+    hostname:
+      name: lenovo
+
   - name: Restore backup
     become: false
     command: >-
