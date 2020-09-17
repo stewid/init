@@ -35,8 +35,13 @@
         - gdb
         - geos-devel
         - gsl-devel
+        - mesa-libGLU-devel
+        - libcurl-devel
+        - libjpeg-turbo-devel
+        - libxml2-devel
         - pandoc
         - pandoc-citeproc
+        - poppler-cpp-devel
         - proj-devel
         - R
         - sqlite-devel
