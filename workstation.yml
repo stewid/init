@@ -92,6 +92,13 @@
       regexp: '^alias backup='
       line: alias backup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) backup \$(pass restic | sed -n 3p)"
 
+  - name: Ensure the 'alias snapshots' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^alias snapshots='
+      line: alias snapshots="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) snapshots"
+
   - name: Create a directory for R packages if it does not exist
     become: false
     file:
