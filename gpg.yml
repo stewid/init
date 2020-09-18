@@ -95,11 +95,14 @@
           chmod 700 $HOME/.ssh
           chmod 600 $HOME/.ssh/config
           chmod 600 $HOME/.ssh/id_rsa_yubikey.pub
-          sudo killall gpg-agent
-          sudo killall ssh-agent
-          eval $(gpg-agent --daemon --enable-ssh-support)
-          gpg-connect-agent 'scd serialno' 'learn --force' /bye
           echo 'Setup ssh'
         fi"
     register: setup_ssh
     changed_when: "'Setup ssh' in setup_ssh.stdout"
+
+  - name: Ensure the 'alias switch-yubikey' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^alias switch-yubikey='
+      line: alias switch-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
