@@ -230,7 +230,7 @@
     git_config:
       name: color.ui
       scope: global
-      value: false
+      value: 'false'
 
   - name: Add file enumeration of untracked files in git
     become: false
