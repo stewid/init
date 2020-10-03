@@ -247,3 +247,10 @@
       name: status.showUntrackedFiles
       scope: global
       value: all
+
+  - name: Set git merge strategy
+    become: false
+    git_config:
+      name: pull.rebase
+      scope: global
+      value: 'false'
