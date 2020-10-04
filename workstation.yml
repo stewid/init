@@ -94,6 +94,27 @@
       value: "'{{ lookup('env', 'PWD') }}/wallpaper.jpg'"
       state: present
 
+  - name: Specify the list view in nautilus
+    become: false
+    dconf:
+      key: "/org/gnome/nautilus/preferences/default-folder-viewer"
+      value: "'list-view'"
+      state: present
+
+  - name: Specify the default zoom level in nautilus
+    become: false
+    dconf:
+      key: "/org/gnome/nautilus/list-view/default-zoom-level"
+      value: "'small'"
+      state: present
+
+  - name: Show hidden files in nautilus
+    become: false
+    dconf:
+      key: "/org/gtk/settings/file-chooser/show-hidden"
+      value: "true"
+      state: present
+      
   - name: Ensure the 'alias backup' is set
     become: false
     lineinfile:
