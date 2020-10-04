@@ -201,6 +201,7 @@
     changed_when: "'Install package' in r_install.stdout"
     with_items:
       - bookdown
+      - data.table
       - getPass
       - knitr
       - raster
