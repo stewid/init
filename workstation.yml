@@ -46,6 +46,7 @@
         - libcurl-devel
         - libjpeg-turbo-devel
         - libxml2-devel
+        - openssl-devel
         - pandoc
         - pandoc-citeproc
         - pdf2svg
