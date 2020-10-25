@@ -1,0 +1,42 @@
+---
+- name: Configure slurm
+  hosts: workstation
+  become: yes
+  tasks:
+
+  - name: Ensure the latest version of munge and slurm are installed
+    dnf:
+      name:
+        - munge
+        - slurm
+        - slurm-slurmd
+        - slurm-slurmctld
+      state: latest
+
+  - name: Setup munge key management
+    command: >-
+      bash -c "
+        if test ! -e /etc/munge/munge.key; then
+          create-munge-key
+          echo 'Setup munge key'
+        fi"
+    register: setup_munge_key
+    changed_when: "'Setup munge key' in setup_munge_key.stdout"
+
+  - name: Start and enable munge
+    systemd:
+      name: munge
+      state: started
+      enabled: yes
+
+  - name: Start and enable slurmctld
+    systemd:
+      name: slurmctld
+      state: started
+      enabled: yes
+
+  - name: Start and enable slurmd
+    systemd:
+      name: slurmd
+      state: started
+      enabled: yes
