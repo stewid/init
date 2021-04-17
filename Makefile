@@ -1,11 +1,11 @@
 .PHONY: workstation
 workstation:
-	ansible-playbook workstation.yml -K
+	ansible-playbook --ask-become-pass workstation.yml
 
 .PHONY: gpg
 gpg:
-	ansible-playbook gpg.yml -K
+	ansible-playbook --ask-become-pass gpg.yml
 
 .PHONY: slurm
 slurm:
-	ansible-playbook slurm.yml -K
+	ansible-playbook --ask-become-pass slurm.yml
