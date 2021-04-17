@@ -1,0 +1,18 @@
+# CFLAGS = -Wall -pedantic
+# CFLAGS = -Wall -Wextra -pedantic -Wno-cast-function-type
+# CFLAGS = -Wall -Wextra -pedantic
+# CFLAGS = -Wall -flto -pedantic
+# CFLAGS = -Wall -Wextra -pedantic -ggdb -O0
+# CFLAGS = -ggdb -O0
+# CFLAGS=-g -O3 -Wall -pedantic -std=gnu99 -mtune=native -pipe
+# CFLAGS=
+# CC=clang
+# CC=ccache gcc
+# VER=
+# CCACHE=ccache
+# CC=$(CCACHE) gcc$(VER)
+# CXX=$(CCACHE) g++$(VER)
+# CXX11=$(CCACHE) g++$(VER)
+# CXX14=$(CCACHE) g++$(VER)
+# FC=$(CCACHE) gfortran$(VER)
+# F77=$(CCACHE) gfortran$(VER)
