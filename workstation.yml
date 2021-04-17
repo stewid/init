@@ -51,6 +51,7 @@
         - pandoc-citeproc
         - pdf2svg
         - poppler-cpp-devel
+        - poppler-glib-devel
         - proj-devel
         - R
         - sqlite-devel
