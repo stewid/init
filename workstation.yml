@@ -145,57 +145,33 @@
       state: directory
       mode: '0755'
 
-  - name: >
-      Create a '~/.R/Makevars' file with some out-commented
-      examples of how to modify package compilation.
+  - name: Create a '~/.R/Makevars' file
     become: false
     copy:
+      src: Makevars
       dest: $HOME/.R/Makevars
       force: no
-      content: |
-        # CFLAGS = -Wall -pedantic
-        # CFLAGS = -Wall -Wextra -pedantic -Wno-cast-function-type
-        # CFLAGS = -Wall -Wextra -pedantic
-        # CFLAGS = -Wall -flto -pedantic
-        # CFLAGS = -Wall -Wextra -pedantic -ggdb -O0
-        # CFLAGS = -ggdb -O0
-        # CFLAGS=-g -O3 -Wall -pedantic -std=gnu99 -mtune=native -pipe
-        # CFLAGS=
-        # CC=clang
-        # CC=ccache gcc
-        # VER=
-        # CCACHE=ccache
-        # CC=$(CCACHE) gcc$(VER)
-        # CXX=$(CCACHE) g++$(VER)
-        # CXX11=$(CCACHE) g++$(VER)
-        # CXX14=$(CCACHE) g++$(VER)
-        # FC=$(CCACHE) gfortran$(VER)
-        # F77=$(CCACHE) gfortran$(VER)
 
   - name: Create a '~/.Renviron' file
     become: false
     copy:
+      src: .Renviron
       dest: $HOME/.Renviron
       force: no
-      content: |
-        R_LIBS_USER=~/R/library
 
   - name: Create a '~/.Rprofile' file
     become: false
     copy:
+      src: .Rprofile
       dest: $HOME/.Rprofile
       force: no
-      content: |
-        options(repos = c(CRAN="https://cran.r-project.org"))
 
   - name: Create a '~/.gdbinit' file
     become: false
     copy:
+      src: .gdbinit
       dest: $HOME/.gdbinit
       force: no
-      content: |
-        set style enabled off
-        set history save on
 
   - name: Ensure that the 'emacs' configuration exists
     become: false
