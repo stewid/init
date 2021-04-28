@@ -23,6 +23,13 @@
       state: started
       enabled: yes
 
+  - name: Create a directory for '~/.gnupg'
+    become: false
+    file:
+      path: $HOME/.gnupg
+      state: directory
+      mode: '0700'
+
   - name: Setup gpg key management
     become: false
     command: >-
