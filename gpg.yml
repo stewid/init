@@ -30,6 +30,14 @@
       state: directory
       mode: '0700'
 
+  - name: Create a '~/.gnupg/gpg.conf' file
+    become: false
+    copy:
+      src: gpg.conf
+      dest: $HOME/.gnupg/gpg.conf
+      force: no
+      mode: '0600'
+
   - name: Setup gpg key management
     become: false
     command: >-
