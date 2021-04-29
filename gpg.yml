@@ -54,10 +54,9 @@
   - name: Create a configuration file for gpg-agent
     become: false
     copy:
+      src: gpg-agent.conf
       dest: $HOME/.gnupg/gpg-agent.conf
       force: no
-      content: |
-        enable-ssh-support
 
   - name: Ensure the 'SSH_AUTH_SOCK' is set
     become: false
