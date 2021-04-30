@@ -87,11 +87,11 @@
       force: no
       mode: '0600'
 
-  - name: Setup ssh key management
+  - name: Setup ssh key
     become: false
     command: >-
       bash -c "
-        if test ! -d ${HOME}/.ssh; then
+        if test ! -f ${HOME}/.ssh/id_rsa_yubikey.pub; then
           gpg --export-ssh-key stefan.widgren@gmail.com > $HOME/.ssh/id_rsa_yubikey.pub
           chmod 600 $HOME/.ssh/id_rsa_yubikey.pub
           echo 'Setup ssh'
