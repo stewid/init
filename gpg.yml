@@ -72,17 +72,22 @@
       regexp: '^gpgconf --launch gpg-agent'
       line: gpgconf --launch gpg-agent
 
+  - name: Create a '~/.ssh' directory
+    become: false
+    file:
+      path: $HOME/.ssh
+      state: directory
+      mode: '0700'
+
   - name: Setup ssh key management
     become: false
     command: >-
       bash -c "
         if test ! -d ${HOME}/.ssh; then
-          mkdir $HOME/.ssh
           echo 'Host *' > $HOME/.ssh/config
           echo '    IdentitiesOnly yes' >> $HOME/.ssh/config
           echo '    IdentityFile ~/.ssh/id_rsa_yubikey.pub' >> $HOME/.ssh/config
           gpg --export-ssh-key stefan.widgren@gmail.com > $HOME/.ssh/id_rsa_yubikey.pub
-          chmod 700 $HOME/.ssh
           chmod 600 $HOME/.ssh/config
           chmod 600 $HOME/.ssh/id_rsa_yubikey.pub
           echo 'Setup ssh'
