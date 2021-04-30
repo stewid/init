@@ -38,11 +38,11 @@
       force: no
       mode: '0600'
 
-  - name: Setup gpg key management
+  - name: Setup gpg key
     become: false
     command: >-
       bash -c "
-        if test ! -d ${HOME}/.gnupg; then
+        if ! gpg --list-key stefan.widgren@gmail.com; then
           gpg --auto-key-locate keyserver --locate-keys stefan.widgren@gmail.com
           KEYID=$(gpg --list-keys --with-colons stefan.widgren@gmail.com | awk -F: '/fpr:/ {print $10}' | head -n 1)
           echo -e '5\ny\n' | gpg --command-fd 0 --edit-key $KEYID trust
