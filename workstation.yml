@@ -4,6 +4,18 @@
   become: yes
   tasks:
 
+  - name: Set the maximum number of simultaneous package downloads for DNF
+    lineinfile:
+      path: /etc/dnf/dnf.conf
+      regexp: '^max_parallel_downloads'
+      line: max_parallel_downloads=10
+
+  - name: Find the fastest available mirror for DNF
+    lineinfile:
+      path: /etc/dnf/dnf.conf
+      regexp: '^fastestmirror'
+      line: fastestmirror=True
+
   - name: Ensure required software packages to run this playbook are installed
     dnf:
       name:
