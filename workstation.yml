@@ -81,6 +81,7 @@
         - texlive-mdframed
         - texlive-multirow
         - texlive-numprint
+        - texlive-pdfcrop
         - texlive-preprint
         - texlive-sidecap
         - texlive-standalone
