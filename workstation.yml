@@ -207,6 +207,13 @@
       scope: global
       value: 'false'
 
+  - name: Set git default init branch name to 'main'
+    become: false
+    git_config:
+      name: init.defaultBranch
+      scope: global
+      value: 'main'
+
   - name: Create a directory for a '~/.R/Makevars' file if it does not exist
     become: false
     file:
