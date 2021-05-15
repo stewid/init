@@ -144,6 +144,20 @@
       regexp: '^alias snapshots='
       line: alias snapshots="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) snapshots"
 
+  - name: Ensure the 'alias mount-restic' is set
+    become: false
+    lineinfile:
+      path: $HOME/.bashrc
+      regexp: '^alias mount-restic='
+      line: alias mount-restic="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) mount \$HOME/restic"
+
+  - name: Create a directory for mounting restic backup files
+    become: false
+    file:
+      path: $HOME/restic
+      state: directory
+      mode: '0755'
+
   - name: Create a '~/.gdbinit' file
     become: false
     copy:
