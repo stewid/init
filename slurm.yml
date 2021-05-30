@@ -4,6 +4,36 @@
   become: yes
   tasks:
 
+  - name: Ensure the group 'munge' exists
+    group:
+      name: munge
+      state: present
+      gid: 1101
+
+  - name: Ensure the group 'slurm' exists
+    group:
+      name: slurm
+      state: present
+      gid: 1102
+
+  - name: Add the 'munge' user.
+    user:
+      name: munge
+      comment: "MUNGE (MUNGE Uid 'N' Gid Emporium)"
+      group: munge
+      home: /var/lib/munge
+      shell: /sbin/nologin
+      uid: 1101
+
+  - name: Add the 'slurm' user.
+    user:
+      name: slurm
+      comment: "slurm workload manager"
+      group: slurm
+      home: /var/lib/slurm
+      shell: /bin/bash
+      uid: 1102
+
   - name: Ensure the latest version of munge and slurm are installed
     dnf:
       name:
@@ -17,11 +47,23 @@
     command: >-
       bash -c "
         if test ! -e /etc/munge/munge.key; then
-          create-munge-key
+          mungekey --create
           echo 'Setup munge key'
         fi"
     register: setup_munge_key
     changed_when: "'Setup munge key' in setup_munge_key.stdout"
+
+  - name: Recursively change ownership of some directories for munge
+    file:
+      path: "{{ item }}"
+      state: directory
+      recurse: yes
+      owner: munge
+      group: munge
+      mode: '0700'
+    loop:
+      - /etc/munge/
+      - /var/log/munge/
 
   - name: Start and enable munge
     systemd:
