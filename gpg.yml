@@ -43,7 +43,7 @@
     command: >-
       bash -c "
         if ! gpg --list-key stefan.widgren@gmail.com; then
-          gpg --auto-key-locate keyserver --locate-keys stefan.widgren@gmail.com
+          gpg --import files/key.asc
           KEYID=$(gpg --list-keys --with-colons stefan.widgren@gmail.com | awk -F: '/fpr:/ {print $10}' | head -n 1)
           echo -e '5\ny\n' | gpg --command-fd 0 --edit-key $KEYID trust
           echo 'Setup gpg'
