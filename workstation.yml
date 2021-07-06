@@ -1,6 +1,8 @@
 ---
 - name: Configure my Fedora workstation
   hosts: workstation
+  roles:
+    - R
   become: yes
   tasks:
 
@@ -227,64 +229,3 @@
       name: init.defaultBranch
       scope: global
       value: 'main'
-
-  - name: Create a directory for a '~/.R/Makevars' file if it does not exist
-    become: false
-    file:
-      path: $HOME/.R
-      state: directory
-      mode: '0755'
-
-  - name: Create a '~/.R/Makevars' file
-    become: false
-    copy:
-      src: Makevars
-      dest: $HOME/.R/Makevars
-      force: no
-
-  - name: Create a '~/.Renviron' file
-    become: false
-    copy:
-      src: .Renviron
-      dest: $HOME/.Renviron
-      force: no
-
-  - name: Create a '~/.Rprofile' file
-    become: false
-    copy:
-      src: .Rprofile
-      dest: $HOME/.Rprofile
-      force: no
-
-  - name: Create a directory for R packages if it does not exist
-    become: false
-    file:
-      path: $HOME/R/library
-      state: directory
-      mode: '0755'
-
-  - name: Install some R packages
-    become: false
-    command: >-
-        Rscript --no-restore --no-save -e "
-          if (!('{{ item }}' %in% installed.packages()[,'Package'])) {
-              tryCatch(install.packages('{{ item }}'),
-                       warning = function(w) stop(w))
-              cat('Install package')
-          }"
-    register: r_install
-    changed_when: "'Install package' in r_install.stdout"
-    with_items:
-      - bookdown
-      - data.table
-      - getPass
-      - knitr
-      - raster
-      - rgl
-      - rmarkdown
-      - roxygen2
-      - pdftools
-      - SimInf
-      - sp
-      - stringi
-      - xml2
