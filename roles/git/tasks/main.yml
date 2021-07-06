@@ -1,0 +1,49 @@
+---
+- name: Set user name for git
+  become: false
+  git_config:
+    name: user.name
+    scope: global
+    value: Stefan Widgren
+
+- name: Set user email for git
+  become: false
+  git_config:
+    name: user.email
+    scope: global
+    value: stefan.widgren@gmail.com
+
+- name: Set core editor for git
+  become: false
+  git_config:
+    name: core.editor
+    scope: global
+    value: emacs
+
+- name: Set ui color for git
+  become: false
+  git_config:
+    name: color.ui
+    scope: global
+    value: 'false'
+
+- name: Add file enumeration of untracked files in git
+  become: false
+  git_config:
+    name: status.showUntrackedFiles
+    scope: global
+    value: all
+
+- name: Set git merge strategy
+  become: false
+  git_config:
+    name: pull.rebase
+    scope: global
+    value: 'false'
+
+- name: Set git default init branch name to 'main'
+  become: false
+  git_config:
+    name: init.defaultBranch
+    scope: global
+    value: 'main'
