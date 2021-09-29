@@ -63,7 +63,6 @@
         - libxml2-devel
         - openssl-devel
         - pandoc
-        - pandoc-citeproc
         - pdf2svg
         - poppler-cpp-devel
         - poppler-glib-devel
