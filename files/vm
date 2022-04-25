@@ -142,7 +142,7 @@ case "$FEDORA_VERSION" in
 	;;
 esac
 
-if [[ $# -gt 0 ]]; then 
+if [[ $# -gt 0 ]]; then
     echo "Error: unrecognized remaining arguments: '$@'" >&2
     display_usage
     exit 1
@@ -220,7 +220,7 @@ cat <<EOF >> /tmp/ks-$IP.cfg
 mkdir /home/$USER/.ssh
 echo "$(cat $AUTHORIZED_KEY)" > /home/$USER/.ssh/authorized_keys
 chmod 0700 /home/$USER/.ssh
-chmod 0600 /home/$USER/.ssh/authorized_keys 
+chmod 0600 /home/$USER/.ssh/authorized_keys
 chown -R $USER:$USER /home/$USER/.ssh
 %end
 EOF
