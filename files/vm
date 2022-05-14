@@ -1,6 +1,6 @@
 #!/bin/bash
 # vm - provision a new Fedora server virtual machine
-# Copyright (C) 2021 Stefan Widgren
+# Copyright (C) 2021 - 2022 Stefan Widgren
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,11 +60,10 @@ EOF
 USER=$USERNAME
 NAME=vm
 IP=192.168.122.2
-FEDORA_VERSION=35
+FEDORA_VERSION=36
 RAM=4096
 VCPUS=2
 SIZE=20
-ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.2.iso
 PASSWORD=
 
 # Note that we use "$@" to let each command-line parameter expand to a
@@ -130,10 +129,16 @@ done
 
 case "$FEDORA_VERSION" in
     '34')
+        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.2.iso
 	OS_VARIANT=34
 	;;
     '35')
+        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.2.iso
 	OS_VARIANT=35
+	;;
+    '36')
+        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.5.iso
+	OS_VARIANT=36
 	;;
     *)
 	echo "Error: invalid Fedora version: '$FEDORA_VERSION'" >&2
