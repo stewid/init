@@ -28,8 +28,8 @@ Options:
 
 -f, --fedora-version=VERSION
     Specify the version of the Fedora Server to install, where VERSION
-    is one of 34 or 35.  If this option is not specified, version 35
-    will be used.
+    is one of 34, 35 or 36.  If this option is not specified, version
+    36 will be used.
 
 -h, --help
     Display usage and exit.
