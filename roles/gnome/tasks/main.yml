@@ -6,8 +6,8 @@
         dconf write /org/gnome/desktop/sound/event-sounds false
         echo "changed"
       fi"
-  register: set_beep_sound_off
-  changed_when: "'changed' in set_beep_sound_off.stdout"
+  register: result
+  changed_when: "'changed' in result.stdout"
   become: false
 
 - name: Set wallpaper
@@ -17,8 +17,8 @@
         dconf write /org/gnome/desktop/background/picture-uri \"'file://$PWD/roles/gnome/files/wallpaper.jpg'\"
         echo "changed"
       fi"
-  register: set_wallpaper
-  changed_when: "'changed' in set_wallpaper.stdout"
+  register: result
+  changed_when: "'changed' in result.stdout"
   become: false
 
 - name: Specify the list view in nautilus
@@ -28,8 +28,8 @@
         dconf write /org/gnome/nautilus/preferences/default-folder-viewer \"'list-view'\"
         echo "changed"
       fi"
-  register: set_list_view
-  changed_when: "'changed' in set_list_view.stdout"
+  register: result
+  changed_when: "'changed' in result.stdout"
   become: false
 
 - name: Specify the default zoom level in nautilus
@@ -39,8 +39,8 @@
         dconf write /org/gnome/nautilus/list-view/default-zoom-level \"'small'\"
         echo "changed"
       fi"
-  register: set_zoom_level
-  changed_when: "'changed' in set_zoom_level.stdout"
+  register: result
+  changed_when: "'changed' in result.stdout"
   become: false
 
 - name: Show hidden files in nautilus
@@ -50,6 +50,6 @@
         dconf write /org/gtk/gtk4/settings/file-chooser/show-hidden true
         echo "changed"
       fi"
-  register: set_show_hidden_files
-  changed_when: "'changed' in set_show_hidden_files.stdout"
+  register: result
+  changed_when: "'changed' in result.stdout"
   become: false
