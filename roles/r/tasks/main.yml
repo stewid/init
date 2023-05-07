@@ -1,38 +1,54 @@
 ---
 - name: Create a directory for a '~/.R/Makevars' file if it does not exist
-  become: false
-  file:
+  ansible.builtin.file:
     path: $HOME/.R
     state: directory
     mode: '0755'
+  become: false
 
 - name: Create a '~/.R/Makevars' file
-  become: false
-  copy:
+  ansible.builtin.copy:
     src: Makevars
     dest: $HOME/.R/Makevars
-    force: no
+    force: false
+    mode: '0755'
+  become: false
 
 - name: Create a '~/.Renviron' file
-  become: false
-  copy:
+  ansible.builtin.copy:
     src: .Renviron
     dest: $HOME/.Renviron
-    force: no
+    force: false
+    mode: '0755'
+  become: false
 
 - name: Create a '~/.Rprofile' file
-  become: false
-  copy:
+  ansible.builtin.copy:
     src: .Rprofile
     dest: $HOME/.Rprofile
-    force: no
+    force: false
+    mode: '0755'
+  become: false
 
 - name: Create a directory for R packages if it does not exist
-  become: false
-  file:
+  ansible.builtin.file:
     path: $HOME/R/library
     state: directory
     mode: '0755'
+  become: false
+
+- name: Ensure various software packages are installed
+  ansible.builtin.dnf:
+    name:
+      - gdal-devel
+      - geos-devel
+      - gsl-devel
+      - libjpeg-turbo-devel
+      - poppler-cpp-devel
+      - proj-devel
+      - R
+    state: present
+  become: true
 
 - name: Install some R packages
   become: false

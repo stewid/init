@@ -1,0 +1,5 @@
+---
+- name: Configure R
+  hosts: workstation
+  roles:
+    - r
