@@ -96,15 +96,15 @@
       mode: '0755'
 
   - name: Create a '~/.gdbinit' file
-    become: false
-    copy:
+    ansible.builtin.copy:
       src: .gdbinit
       dest: $HOME/.gdbinit
-      force: no
+      force: false
+    become: false
 
   - name: Ensure that the 'emacs' configuration exists
-    become: false
-    git:
+    ansible.builtin.git:
       repo: 'https://github.com/stewid/.emacs.d.git'
       dest: $HOME/.emacs.d
-      update: no
+      update: false
+    become: false
