@@ -17,7 +17,7 @@
         - restic
 
   - name: Set hostname to the model name
-    command: >-
+    ansible.builtin.command: >-
         bash -c "
           MODELNAME=$(dmidecode -s system-version | sed 's/[[:space:]]//g')
           if test \"$(hostname)\" != \"$MODELNAME\"; then
@@ -29,7 +29,7 @@
 
   - name: Restore backup
     become: false
-    command: >-
+    ansible.builtin.command: >-
       bash -c "
         if test ! -d ${HOME}/$(pass restic | sed -n 4p); then
           restic --password-file <(pass restic | sed -n 1p) -r $(pass restic | sed -n 2p) restore latest --target $HOME

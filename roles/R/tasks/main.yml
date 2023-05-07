@@ -36,7 +36,7 @@
 
 - name: Install some R packages
   become: false
-  command: >-
+  ansible.builtin.command: >-
       Rscript --no-restore --no-save -e "
         if (!('{{ item }}' %in% installed.packages()[,'Package'])) {
             tryCatch(install.packages('{{ item }}'),

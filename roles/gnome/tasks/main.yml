@@ -1,6 +1,6 @@
 ---
 - name: Turn off the Gnome beep sound
-  command: >-
+  ansible.builtin.command: >-
     bash -c "
       if [[ $(dconf read /org/gnome/desktop/sound/event-sounds) != \"false\" ]]; then
         dconf write /org/gnome/desktop/sound/event-sounds false
@@ -11,7 +11,7 @@
   become: false
 
 - name: Set wallpaper
-  command: >-
+  ansible.builtin.command: >-
     bash -c "
       if [[ -z $(dconf read /org/gnome/desktop/background/picture-uri) ]]; then
         dconf write /org/gnome/desktop/background/picture-uri \"'file://$PWD/roles/gnome/files/wallpaper.jpg'\"
@@ -22,7 +22,7 @@
   become: false
 
 - name: Specify the list view in nautilus
-  command: >-
+  ansible.builtin.command: >-
     bash -c "
       if [[ $(dconf read /org/gnome/nautilus/preferences/default-folder-viewer) != \"'list-view'\" ]]; then
         dconf write /org/gnome/nautilus/preferences/default-folder-viewer \"'list-view'\"
@@ -33,7 +33,7 @@
   become: false
 
 - name: Specify the default zoom level in nautilus
-  command: >-
+  ansible.builtin.command: >-
     bash -c "
       if [[ $(dconf read /org/gnome/nautilus/list-view/default-zoom-level) != \"'small'\" ]]; then
         dconf write /org/gnome/nautilus/list-view/default-zoom-level \"'small'\"
@@ -44,7 +44,7 @@
   become: false
 
 - name: Show hidden files in nautilus
-  command: >-
+  ansible.builtin.command: >-
     bash -c "
       if [[ $(dconf read /org/gtk/gtk4/settings/file-chooser/show-hidden) != \"true\" ]]; then
         dconf write /org/gtk/gtk4/settings/file-chooser/show-hidden true
