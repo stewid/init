@@ -1,4 +1,12 @@
 ---
+- name: Create a '~/.config/ccache/ccache.conf' file
+  ansible.builtin.copy:
+    src: ccache.conf
+    dest: $HOME/.config/ccache/ccache.conf
+    force: false
+    mode: '0755'
+  become: false
+
 - name: Create a directory for a '~/.R/Makevars' file if it does not exist
   ansible.builtin.file:
     path: $HOME/.R
@@ -40,6 +48,7 @@
 - name: Ensure various software packages are installed
   ansible.builtin.dnf:
     name:
+      - ccache
       - gdal-devel
       - geos-devel
       - gsl-devel

@@ -7,12 +7,9 @@
 # CFLAGS=-g -O3 -Wall -pedantic -std=gnu99 -mtune=native -pipe
 # CFLAGS=
 # CC=clang
-# CC=ccache gcc
-# VER=
-# CCACHE=ccache
-# CC=$(CCACHE) gcc$(VER)
-# CXX=$(CCACHE) g++$(VER)
-# CXX11=$(CCACHE) g++$(VER)
-# CXX14=$(CCACHE) g++$(VER)
-# FC=$(CCACHE) gfortran$(VER)
-# F77=$(CCACHE) gfortran$(VER)
+CC=ccache gcc
+CXX=ccache g++
+CXX11=ccache g++
+CXX14=ccache g++
+FC=ccache gfortran
+F77=ccache gfortran
