@@ -51,27 +51,27 @@
   become: true
 
 - name: Install some R packages
-  become: false
   ansible.builtin.command: >-
       Rscript --no-restore --no-save -e "
-        if (!('{{ item }}' %in% installed.packages()[,'Package'])) {
-            tryCatch(install.packages('{{ item }}'),
-                     warning = function(w) stop(w))
-            cat('Install package')
+        pkgs <- c(
+            'bookdown',
+            'data.table',
+            'getPass',
+            'knitr',
+            'raster',
+            'rgl',
+            'rmarkdown',
+            'roxygen2',
+            'pdftools',
+            'SimInf',
+            'sp',
+            'stringi',
+            'xml2')
+        pkgs <- pkgs[!(pkgs %in% installed.packages()[,'Package'])]
+        if (length(pkgs)) {
+            install.packages(pkgs, Ncpus = parallel::detectCores())
+            cat('changed')
         }"
-  register: r_install
-  changed_when: "'Install package' in r_install.stdout"
-  with_items:
-    - bookdown
-    - data.table
-    - getPass
-    - knitr
-    - raster
-    - rgl
-    - rmarkdown
-    - roxygen2
-    - pdftools
-    - SimInf
-    - sp
-    - stringi
-    - xml2
+  register: result
+  changed_when: "'changed' in result.stdout"
+  become: false
