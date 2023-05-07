@@ -1,0 +1,14 @@
+---
+- name: Set the maximum number of simultaneous package downloads for DNF
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/dnf.conf
+    regexp: '^max_parallel_downloads'
+    line: max_parallel_downloads=10
+  become: true
+
+- name: Find the fastest available mirror for DNF
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/dnf.conf
+    regexp: '^fastestmirror'
+    line: fastestmirror=True
+  become: true
