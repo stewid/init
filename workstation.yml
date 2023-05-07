@@ -6,7 +6,7 @@
     - dnf
     - git
     - gnome
-    - R
+    - r
   become: yes
   tasks:
 
