@@ -2,7 +2,9 @@
 - name: Configure my Fedora workstation
   hosts: workstation
   roles:
+    - bashrc
     - git
+    - gnome
     - R
   become: yes
   tasks:
@@ -97,27 +99,6 @@
         - udunits2-devel
       state: latest
 
-  - name: Ensure the 'alias backup' is set
-    become: false
-    lineinfile:
-      path: $HOME/.bashrc
-      regexp: '^alias backup='
-      line: alias backup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) backup \$(pass restic | sed -n 3p)"
-
-  - name: Ensure the 'alias snapshots' is set
-    become: false
-    lineinfile:
-      path: $HOME/.bashrc
-      regexp: '^alias snapshots='
-      line: alias snapshots="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) snapshots"
-
-  - name: Ensure the 'alias mount-restic' is set
-    become: false
-    lineinfile:
-      path: $HOME/.bashrc
-      regexp: '^alias mount-restic='
-      line: alias mount-restic="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) mount \$HOME/restic"
-
   - name: Create a directory for mounting restic backup files
     become: false
     file:
@@ -138,10 +119,3 @@
       repo: 'https://github.com/stewid/.emacs.d.git'
       dest: $HOME/.emacs.d
       update: no
-
-  - name: Ensure the EDITOR environment variable is set
-    become: false
-    lineinfile:
-      path: $HOME/.bashrc
-      regexp: '^export EDITOR='
-      line: export EDITOR=emacs
