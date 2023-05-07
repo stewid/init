@@ -1,35 +1,35 @@
 ---
 - name: Ensure the 'alias backup' is set
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: $HOME/.bashrc
     regexp: '^alias backup='
     line: alias backup="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) backup \$(pass restic | sed -n 3p)"
   become: false
 
 - name: Ensure the 'alias snapshots' is set
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: $HOME/.bashrc
     regexp: '^alias snapshots='
     line: alias snapshots="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) snapshots"
   become: false
 
 - name: Ensure the 'alias mount-restic' is set
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: $HOME/.bashrc
     regexp: '^alias mount-restic='
     line: alias mount-restic="restic --password-file <(pass restic | sed -n 1p) -r \$(pass restic | sed -n 2p) mount \$HOME/restic"
   become: false
 
 - name: Ensure the 'alias upgrade' is set
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: $HOME/.bashrc
     regexp: '^alias upgrade='
     line: alias upgrade="sudo dnf --refresh --assumeyes upgrade; Rscript -e \"update.packages('~/R/library', ask = FALSE, Ncpus = parallel::detectCores())\""
   become: false
 
 - name: Ensure the EDITOR environment variable is set
-  become: false
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: $HOME/.bashrc
     regexp: '^export EDITOR='
     line: export EDITOR=emacs
+  become: false

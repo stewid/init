@@ -59,18 +59,18 @@
       force: no
 
   - name: Ensure the 'SSH_AUTH_SOCK' is set
-    become: false
-    lineinfile:
+    ansible.builtin.lineinfile:
       path: $HOME/.bashrc
       regexp: '^export SSH_AUTH_SOCK='
       line: export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+    become: false
 
   - name: Ensure the 'gpg-agent' is launched
-    become: false
-    lineinfile:
+    ansible.builtin.lineinfile:
       path: $HOME/.bashrc
       regexp: '^gpgconf --launch gpg-agent'
       line: gpgconf --launch gpg-agent
+    become: false
 
   - name: Create a '~/.ssh' directory
     become: false
@@ -100,8 +100,8 @@
     changed_when: "'Setup ssh' in setup_ssh.stdout"
 
   - name: Ensure the 'alias switch-yubikey' is set
-    become: false
-    lineinfile:
+    ansible.builtin.lineinfile:
       path: $HOME/.bashrc
       regexp: '^alias switch-yubikey='
       line: alias switch-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
+    become: false
