@@ -49,6 +49,7 @@
   ansible.builtin.dnf:
     name:
       - ccache
+      - devscripts-checkbashisms
       - gdal-devel
       - geos-devel
       - gsl-devel
@@ -67,6 +68,7 @@
             'data.table',
             'getPass',
             'knitr',
+            'pkgbuild',
             'raster',
             'rgl',
             'rmarkdown',
