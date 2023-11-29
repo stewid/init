@@ -26,17 +26,12 @@ Options:
     machine. The argument must be the full path to a key, for example,
     '/home/user/.ssh/id_rsa.pub'.
 
--f, --fedora-version=VERSION
-    Specify the version of the Fedora Server to install, where VERSION
-    is one of 34, 35, 36, 37 or 38.  If this option is not specified,
-    version 38 will be used.
-
 -h, --help
     Display usage and exit.
 
 -i, --ip-address=ADDRESS
     The IP-address of the new virtual machine.  If this option is not
-    specified, '192.168.122.2' will be used.
+    specified, '192.168.124.2' will be used.
 
 -n, --name=NAME
     Name of the new guest virtual machine instance.  Also used for the
@@ -59,8 +54,10 @@ EOF
 
 USER=$USERNAME
 NAME=vm
-IP=192.168.122.2
-FEDORA_VERSION=38
+IP=192.168.124.2
+FEDORA_VERSION=39
+ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.5.iso
+OS_VARIANT=fedora38
 RAM=4096
 VCPUS=2
 SIZE=20
@@ -69,7 +66,7 @@ PASSWORD=
 # Note that we use "$@" to let each command-line parameter expand to a
 # separate word. The quotes around "$@" are essential!  We need TEMP
 # as the 'eval set --' would nuke the return value of getopt.
-TEMP=$(getopt --options 'a:f:hi:n:p:u:' --long 'authorized-key:,fedora-version:,help,ip-address:,name:,pass:,user:' --name 'vm' -- "$@")
+TEMP=$(getopt --options 'a:hi:n:p:u:' --long 'authorized-key:,help,ip-address:,name:,pass:,user:' --name 'vm' -- "$@")
 
 if [ $? -ne 0 ]; then
     echo 'Terminating...' >&2
@@ -84,11 +81,6 @@ while true; do
     case "$1" in
 	'-a'|'--authorized-key')
 	    AUTHORIZED_KEY=$2
-	    shift 2
-	    continue
-	    ;;
-	'-f'|'--fedora-version')
-            FEDORA_VERSION=$2
 	    shift 2
 	    continue
 	    ;;
@@ -126,34 +118,6 @@ while true; do
 	    ;;
     esac
 done
-
-case "$FEDORA_VERSION" in
-    '34')
-        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.2.iso
-	OS_VARIANT=34
-	;;
-    '35')
-        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.2.iso
-	OS_VARIANT=35
-	;;
-    '36')
-        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.5.iso
-	OS_VARIANT=36
-	;;
-    '37')
-        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.7.iso
-	OS_VARIANT=37
-	;;
-    '38')
-        ISO=Fedora-Server-netinst-x86_64-$FEDORA_VERSION-1.6.iso
-	OS_VARIANT=38
-	;;
-    *)
-	echo "Error: invalid Fedora version: '$FEDORA_VERSION'" >&2
-	display_usage
-	exit 1
-	;;
-esac
 
 if [[ $# -gt 0 ]]; then
     echo "Error: unrecognized remaining arguments: '$@'" >&2
@@ -196,7 +160,7 @@ repo --name=fedora-updates --mirrorlist="https://mirrors.fedoraproject.org/mirro
 
 # Network information
 network --onboot=on --activate
-network --bootproto=static --ip=$IP --netmask=255.255.255.0 --gateway=192.168.122.1 --nameserver=192.168.122.1 --device=link
+network --bootproto=static --ip=$IP --netmask=255.255.255.0 --gateway=192.168.124.1 --nameserver=192.168.124.1 --device=link
 network --hostname=$NAME
 
 %packages
@@ -249,7 +213,7 @@ virt-install \
     --ram $RAM \
     --vcpus $VCPUS \
     --disk path=/var/lib/libvirt/images/$NAME.qcow2,size=$SIZE \
-    --os-variant fedora$OS_VARIANT \
+    --os-variant $OS_VARIANT \
     --noautoconsole \
     --network bridge=virbr0 \
     --location /var/lib/libvirt/images/$ISO,kernel=/images/pxeboot/vmlinuz,initrd=/images/pxeboot/initrd.img \
